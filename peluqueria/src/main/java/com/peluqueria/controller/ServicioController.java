@@ -10,20 +10,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/servicios") // URL base para todos los endpoints de Servicio
+@RequestMapping("/servicios") // URL base para todos los endpoints de Servicio
 public class ServicioController {
 
     @Autowired
     private ServicioService servicioService;
 
-    // http://localhost:8080/api/v1/servicios
+    // http://localhost:8080/api/servicios
     @GetMapping
     public ResponseEntity<List<Servicio>> getAllServicios() {
         return ResponseEntity.ok(servicioService.findAll());
     }
 
 
-    // http://localhost:8080/api/v1/servicios/{id}
+    // http://localhost:8080/api/servicios/{id}
     @GetMapping("/{id}")
     public ResponseEntity<Servicio> getServicioById(@PathVariable Long id) {
         Servicio servicio = servicioService.findById(id);
@@ -34,7 +34,7 @@ public class ServicioController {
     }
 
 
-    // http://localhost:8080/api/v1/servicios
+    // http://localhost:8080/servicios
     @PostMapping
     public ResponseEntity<Servicio> createServicio(@RequestBody Servicio servicio) {
         Servicio nuevoServicio = servicioService.save(servicio);
@@ -47,7 +47,7 @@ public class ServicioController {
     }
 
 
-    // http://localhost:8080/api/v1/servicios/{id}
+    // http://localhost:8080/servicios/{id}
     @PutMapping("/{id}")
     public ResponseEntity<Servicio> updateServicio(@PathVariable Long id, @RequestBody Servicio servicioDetalles) {
         Servicio servicioExistente = servicioService.findById(id);
@@ -65,19 +65,18 @@ public class ServicioController {
         return ResponseEntity.notFound().build();
     }
 
-    // http://localhost:8080/api/v1/servicios/{id}
+    // http://localhost:8080/servicios/{id}
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteServicio(@PathVariable Long id) {
         if (servicioService.findById(id) != null) {
             servicioService.deleteById(id);
-            // 204 No Content es la respuesta estándar para una eliminación exitosa
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
     }
 
 
-    // http://localhost:8080/api/v1/servicios/busquedas/nombre?q=corte
+    // http://localhost:8080/servicios/busquedas/nombre?q=corte
     @GetMapping("/busquedas/nombre")
     public ResponseEntity<List<Servicio>> buscarPorNombre(@RequestParam("q") String nombre) {
         List<Servicio> servicios = servicioService.buscarPorNombre(nombre);
@@ -88,7 +87,7 @@ public class ServicioController {
     }
 
 
-    // http://localhost:8080/api/v1/servicios/busquedas/nativa?duracion=4
+    // http://localhost:8080/servicios/busquedas/nativa?duracion=4
     @GetMapping("/busquedas/nativa")
     public ResponseEntity<List<Servicio>> buscarPorDuracionMinima(@RequestParam("duracion") int duracion) {
         List<Servicio> servicios = servicioService.buscarPorDuracionMinimaNativa(duracion);
