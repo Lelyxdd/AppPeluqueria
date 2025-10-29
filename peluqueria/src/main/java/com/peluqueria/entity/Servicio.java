@@ -16,8 +16,12 @@ public class Servicio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idServicio;
 
+    @Enumerated(EnumType.STRING) // CRUCIAL: Guarda el ENUM como String en la BD
+    @Column(name = "tipo_servicio", nullable = false) // Mapea a la columna 'tipo_servicio' de la BD
+    private TiposServicio tipoServicio;
+
     @Column(nullable = false)
-    private String nombre; // corte, tinte, manicura, etc
+    private String nombre; // Nombre específico del servicio: "Corte de media melena"
 
     @Column(columnDefinition = "TEXT")
     private String descripcion;
@@ -27,6 +31,17 @@ public class Servicio {
 
     @Column(nullable = false)
     private double precio;
+
+    // --- Getters y Setters (Aunque @Data los genera, los mantenemos si quieres ser explícito) ---
+
+    // Getter y Setter para el nuevo campo tipoServicio
+    public TiposServicio getTipoServicio() {
+        return tipoServicio;
+    }
+
+    public void setTipoServicio(TiposServicio tipoServicio) {
+        this.tipoServicio = tipoServicio;
+    }
 
     public Long getIdServicio() {
         return idServicio;
