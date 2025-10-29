@@ -1,6 +1,7 @@
 package com.peluqueria.controller;
 
 import com.peluqueria.entity.Servicio;
+import com.peluqueria.entity.TiposServicio;
 import com.peluqueria.service.ServicioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,8 @@ public class ServicioController {
     @PostMapping
     public ResponseEntity<Servicio> crearServicio(@RequestBody Servicio servicio) {
         Servicio nuevo = servicioService.save(servicio);
-        return ResponseEntity.status(201).body(nuevo);
+        // Retorna 201 si es exitoso, 400 si la validación falla en el Service
+        return (nuevo != null) ? ResponseEntity.status(201).body(nuevo) : ResponseEntity.badRequest().build();
     }
 
     // Actualizar un servicio existente
@@ -45,7 +47,8 @@ public class ServicioController {
         }
         servicio.setIdServicio(id);
         Servicio actualizado = servicioService.save(servicio);
-        return ResponseEntity.ok(actualizado);
+        // Retorna 200 si es exitoso, 400 si la validación falla en el Service
+        return (actualizado != null) ? ResponseEntity.ok(actualizado) : ResponseEntity.badRequest().build();
     }
 
     // Eliminar un servicio
@@ -66,6 +69,14 @@ public class ServicioController {
         return resultados.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(resultados);
     }
 
+
+    @GetMapping("/buscar/tipo")
+    public ResponseEntity<List<Servicio>> buscarPorTipo(@RequestParam TiposServicio tipo) {
+        List<Servicio> resultados = servicioService.buscarPorTipoServicio(tipo);
+        return resultados.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(resultados);
+    }
+
+
     // Buscar servicios por duración mínima (consulta nativa)
     @GetMapping("/buscar/duracion")
     public ResponseEntity<List<Servicio>> buscarPorDuracion(@RequestParam int duracion) {
@@ -74,7 +85,6 @@ public class ServicioController {
     }
 
     //--------------------------extra------------------------------
-
 
 
 }
