@@ -17,7 +17,7 @@ public class Servicio {
     private Long idServicio;
 
     @Column(nullable = false)
-    private String nombre; // corte, tinte, manicura, etc.
+    private String nombre; // corte, tinte, manicura, etc
 
     @Column(columnDefinition = "TEXT")
     private String descripcion;
