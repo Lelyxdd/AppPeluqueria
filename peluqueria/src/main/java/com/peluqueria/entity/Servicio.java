@@ -28,6 +28,43 @@ public class Servicio {
     @Column(nullable = false)
     private double precio;
 
-    // Un Servicio no necesita conocer sus Citas para el CRUD básico,
-    // pero podría ser útil si implementamos informes complejos.
+    public Long getIdServicio() {
+        return idServicio;
+    }
+
+    public void setIdServicio(Long idServicio) {
+        this.idServicio = idServicio;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public int getDuracionBloques() {
+        return duracionBloques;
+    }
+
+    public void setDuracionBloques(int duracionBloques) {
+        this.duracionBloques = duracionBloques;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
 }
