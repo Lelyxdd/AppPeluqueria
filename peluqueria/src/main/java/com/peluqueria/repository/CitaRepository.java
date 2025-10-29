@@ -1,7 +1,5 @@
 package com.peluqueria.repository;
 
-import com.peluqueria.entity.Cita;
-import com.peluqueria.entity.EstadoCita;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
