@@ -13,7 +13,6 @@ public class ServicioService {
     @Autowired
     private ServicioRepository servicioRepository;
 
-    // CRUD Básico
     public List<Servicio> findAll() {
         return servicioRepository.findAll();
     }
@@ -23,7 +22,6 @@ public class ServicioService {
     }
 
     public Servicio save(Servicio servicio) {
-        // Lógica de negocio: Validar que la duración sea positiva
         if (servicio.getDuracionBloques() <= 0) {
             System.err.println("ERROR: La duración del servicio debe ser mayor a cero.");
             return null; // Devolver null para indicar que la validación falló

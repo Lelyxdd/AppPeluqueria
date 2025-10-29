@@ -26,7 +26,7 @@ public class Servicio {
     private int duracionBloques; // Duración en intervalos de 30 minutos
 
     @Column(nullable = false)
-    private double precio; // Precio del servicio (simulación de entorno real)
+    private double precio;
 
     // Un Servicio no necesita conocer sus Citas para el CRUD básico,
     // pero podría ser útil si implementamos informes complejos.
