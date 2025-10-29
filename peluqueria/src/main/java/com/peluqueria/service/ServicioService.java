@@ -42,11 +42,7 @@ public class ServicioService {
         return servicioRepository.findByNombreContainingIgnoreCase(nombre);
     }
 
-    /**
 
-     Busca servicios por el tipo de enumeración (TiposServicio).
-     @param tipoServicio El ENUM por el que buscar.
-     @return Lista de servicios que coinciden con el tipo.*/
     public List<Servicio> buscarPorTipoServicio(TiposServicio tipoServicio) {
         return servicioRepository.findByTipoServicio(tipoServicio);}
 
