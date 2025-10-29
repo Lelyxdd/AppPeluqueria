@@ -16,14 +16,13 @@ public class ServicioController {
     @Autowired
     private ServicioService servicioService;
 
-    // 1. GET ALL
     // http://localhost:8080/api/v1/servicios
     @GetMapping
     public ResponseEntity<List<Servicio>> getAllServicios() {
         return ResponseEntity.ok(servicioService.findAll());
     }
 
-    // 2. GET BY ID
+
     // http://localhost:8080/api/v1/servicios/{id}
     @GetMapping("/{id}")
     public ResponseEntity<Servicio> getServicioById(@PathVariable Long id) {
@@ -34,7 +33,7 @@ public class ServicioController {
         return ResponseEntity.notFound().build();
     }
 
-    // 3. POST (Insertar)
+
     // http://localhost:8080/api/v1/servicios
     @PostMapping
     public ResponseEntity<Servicio> createServicio(@RequestBody Servicio servicio) {
@@ -47,7 +46,7 @@ public class ServicioController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
-    // 4. PUT (Actualizar)
+
     // http://localhost:8080/api/v1/servicios/{id}
     @PutMapping("/{id}")
     public ResponseEntity<Servicio> updateServicio(@PathVariable Long id, @RequestBody Servicio servicioDetalles) {
@@ -66,7 +65,6 @@ public class ServicioController {
         return ResponseEntity.notFound().build();
     }
 
-    // 5. DELETE
     // http://localhost:8080/api/v1/servicios/{id}
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteServicio(@PathVariable Long id) {
@@ -78,9 +76,7 @@ public class ServicioController {
         return ResponseEntity.notFound().build();
     }
 
-    // CONSULTAS PERSONALIZADAS
 
-    // 6. Búsqueda por nombre (usa ContainingIgnoreCase para LIKE %nombre%)
     // http://localhost:8080/api/v1/servicios/busquedas/nombre?q=corte
     @GetMapping("/busquedas/nombre")
     public ResponseEntity<List<Servicio>> buscarPorNombre(@RequestParam("q") String nombre) {
@@ -91,7 +87,7 @@ public class ServicioController {
         return ResponseEntity.ok(servicios);
     }
 
-    // 7. Búsqueda por duración mínima (Query Nativa: operador >)
+
     // http://localhost:8080/api/v1/servicios/busquedas/nativa?duracion=4
     @GetMapping("/busquedas/nativa")
     public ResponseEntity<List<Servicio>> buscarPorDuracionMinima(@RequestParam("duracion") int duracion) {
