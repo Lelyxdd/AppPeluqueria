@@ -29,4 +29,5 @@ INSERT INTO servicio (id_servicio, nombre, descripcion, duracion_bloques, precio
 (1, 'Corte Express', 'Corte de puntas rápido', 1, 10.00),
 (2, 'Manicura Completa', 'Manicura con esmaltado normal', 2, 15.00),
 (3, 'Tinte y Mechas', 'Aplicación de tinte y mechas completas', 4, 45.00);
+
  */

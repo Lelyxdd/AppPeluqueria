@@ -3,97 +3,77 @@ package com.peluqueria.controller;
 import com.peluqueria.entity.Servicio;
 import com.peluqueria.service.ServicioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/servicios") // URL base para todos los endpoints de Servicio
+@RequestMapping("/servicios")
 public class ServicioController {
 
     @Autowired
     private ServicioService servicioService;
 
-    // http://localhost:8080/api/servicios
+    // Obtener todos los servicios
     @GetMapping
-    public ResponseEntity<List<Servicio>> getAllServicios() {
-        return ResponseEntity.ok(servicioService.findAll());
+    public ResponseEntity<List<Servicio>> listarServicios() {
+        List<Servicio> servicios = servicioService.findAll();
+        return servicios.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(servicios);
     }
 
-
-    // http://localhost:8080/api/servicios/{id}
+    // Obtener un servicio por su ID
     @GetMapping("/{id}")
-    public ResponseEntity<Servicio> getServicioById(@PathVariable Long id) {
+    public ResponseEntity<Servicio> obtenerServicio(@PathVariable Long id) {
         Servicio servicio = servicioService.findById(id);
-        if (servicio != null) {
-            return ResponseEntity.ok(servicio);
-        }
-        return ResponseEntity.notFound().build();
+        return (servicio != null) ? ResponseEntity.ok(servicio) : ResponseEntity.notFound().build();
     }
 
-
-    // http://localhost:8080/servicios
+    // Crear un nuevo servicio
     @PostMapping
-    public ResponseEntity<Servicio> createServicio(@RequestBody Servicio servicio) {
-        Servicio nuevoServicio = servicioService.save(servicio);
-        if (nuevoServicio != null) {
-            // 201 Created es la respuesta estándar para una inserción exitosa
-            return ResponseEntity.status(HttpStatus.CREATED).body(nuevoServicio);
-        }
-        // Si retorna null (falla la validación del servicio)
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    public ResponseEntity<Servicio> crearServicio(@RequestBody Servicio servicio) {
+        Servicio nuevo = servicioService.save(servicio);
+        return ResponseEntity.status(201).body(nuevo);
     }
 
-
-    // http://localhost:8080/servicios/{id}
+    // Actualizar un servicio existente
     @PutMapping("/{id}")
-    public ResponseEntity<Servicio> updateServicio(@PathVariable Long id, @RequestBody Servicio servicioDetalles) {
-        Servicio servicioExistente = servicioService.findById(id);
-
-        if (servicioExistente != null) {
-            // Se garantiza que el ID no se pierda en la actualización
-            servicioDetalles.setIdServicio(id);
-            Servicio servicioActualizado = servicioService.save(servicioDetalles);
-
-            if (servicioActualizado != null) {
-                return ResponseEntity.ok(servicioActualizado);
-            }
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build(); // Error de validación (duración)
+    public ResponseEntity<Servicio> actualizarServicio(@PathVariable Long id, @RequestBody Servicio servicio) {
+        Servicio existente = servicioService.findById(id);
+        if (existente == null) {
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
+        servicio.setIdServicio(id);
+        Servicio actualizado = servicioService.save(servicio);
+        return ResponseEntity.ok(actualizado);
     }
 
-    // http://localhost:8080/servicios/{id}
+    // Eliminar un servicio
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteServicio(@PathVariable Long id) {
-        if (servicioService.findById(id) != null) {
-            servicioService.deleteById(id);
-            return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> eliminarServicio(@PathVariable Long id) {
+        Servicio servicio = servicioService.findById(id);
+        if (servicio == null) {
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
+        servicioService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 
-
-    // http://localhost:8080/servicios/busquedas/nombre?q=corte
-    @GetMapping("/busquedas/nombre")
-    public ResponseEntity<List<Servicio>> buscarPorNombre(@RequestParam("q") String nombre) {
-        List<Servicio> servicios = servicioService.buscarPorNombre(nombre);
-        if (servicios.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(servicios);
+    // Buscar servicios por nombre
+    @GetMapping("/buscar")
+    public ResponseEntity<List<Servicio>> buscarPorNombre(@RequestParam String nombre) {
+        List<Servicio> resultados = servicioService.buscarPorNombre(nombre);
+        return resultados.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(resultados);
     }
 
-
-    // http://localhost:8080/servicios/busquedas/nativa?duracion=4
-    @GetMapping("/busquedas/nativa")
-    public ResponseEntity<List<Servicio>> buscarPorDuracionMinima(@RequestParam("duracion") int duracion) {
-        List<Servicio> servicios = servicioService.buscarPorDuracionMinimaNativa(duracion);
-        if (servicios.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(servicios);
+    // Buscar servicios por duración mínima (consulta nativa)
+    @GetMapping("/buscar/duracion")
+    public ResponseEntity<List<Servicio>> buscarPorDuracion(@RequestParam int duracion) {
+        List<Servicio> resultados = servicioService.buscarPorDuracionMinimaNativa(duracion);
+        return resultados.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(resultados);
     }
+
+    //--------------------------extra------------------------------
+
+
 }
