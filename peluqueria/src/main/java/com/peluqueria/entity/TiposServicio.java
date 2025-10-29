@@ -2,11 +2,15 @@ package com.peluqueria.entity;
 
 
 public enum TiposServicio {
-    CORTE,
-    TINTE,
     PEINADO,
-    DEPILACION,
-    MANICURA,
-    PEDICURA,
-    QUIMICO // Para tratamientos como alisados o permanentes
+    PEINADO_RECOGIDO,
+    CORTE_ESTILO,
+    CORTE_FEMENINO,
+    CORTE_MASCULINO,
+    COLOR_COMPLETO,
+    COLOR_RAICES,
+    MECHAS,
+    CAMBIO_ESTILO_COLOR,
+    CAMBIO_FORMA_PERMANENTE,
+    TRATAMIENTO
 }
