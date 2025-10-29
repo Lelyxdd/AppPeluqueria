@@ -1,6 +1,7 @@
 package com.peluqueria.service;
 
 import com.peluqueria.entity.Servicio;
+import com.peluqueria.entity.TiposServicio;
 import com.peluqueria.repository.ServicioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class ServicioService {
     }
 
     public Servicio save(Servicio servicio) {
+        // Validación básica de duración
         if (servicio.getDuracionBloques() <= 0) {
             System.err.println("ERROR: La duración del servicio debe ser mayor a cero.");
             return null; // Devolver null para indicar que la validación falló
@@ -39,6 +41,14 @@ public class ServicioService {
         // Usa ContainingIgnoreCase, que permite buscar sin % en el código y es insensible a mayúsculas
         return servicioRepository.findByNombreContainingIgnoreCase(nombre);
     }
+
+    /**
+
+     Busca servicios por el tipo de enumeración (TiposServicio).
+     @param tipoServicio El ENUM por el que buscar.
+     @return Lista de servicios que coinciden con el tipo.*/
+    public List<Servicio> buscarPorTipoServicio(TiposServicio tipoServicio) {
+        return servicioRepository.findByTipoServicio(tipoServicio);}
 
     public List<Servicio> buscarPorDuracionMinimaNativa(int minDuracion) {
         // Usa la query nativa con el operador >
