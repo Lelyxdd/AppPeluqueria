@@ -3,6 +3,8 @@ package com.peluqueria.service;
 import com.peluqueria.entity.Servicio;
 import com.peluqueria.entity.TiposServicio;
 import com.peluqueria.repository.ServicioRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,5 +51,15 @@ public class ServicioService {
     public List<Servicio> buscarPorDuracionMinimaNativa(int minDuracion) {
         // Usa la query nativa con el operador >
         return servicioRepository.buscarPorDuracionMinima(minDuracion);
+    }
+
+    @PersistenceContext
+    private EntityManager em;
+
+    public List<Servicio> buscarPorDuracionConEntityManager(int minDuracion) {
+        String sql = "SELECT s FROM Servicio s WHERE s.duracionBloques > :minDuracion";
+        return em.createQuery(sql, Servicio.class)
+                .setParameter("minDuracion", minDuracion)
+                .getResultList();
     }
 }
