@@ -25,7 +25,7 @@ public class ServicioService {
     }
 
     public Servicio save(Servicio servicio) {
-        // Validación básica de duración
+
         if (servicio.getDuracionBloques() <= 0) {
             System.err.println("ERROR: La duración del servicio debe ser mayor a cero.");
             return null; // Devolver null para indicar que la validación falló
@@ -40,7 +40,7 @@ public class ServicioService {
     // Consultas personalizadas
 
     public List<Servicio> buscarPorNombre(String nombre) {
-        // Usa ContainingIgnoreCase, que permite buscar sin % en el código y es insensible a mayúsculas
+
         return servicioRepository.findByNombreContainingIgnoreCase(nombre);
     }
 
@@ -49,7 +49,7 @@ public class ServicioService {
         return servicioRepository.findByTipoServicio(tipoServicio);}
 
     public List<Servicio> buscarPorDuracionMinimaNativa(int minDuracion) {
-        // Usa la query nativa con el operador >
+
         return servicioRepository.buscarPorDuracionMinima(minDuracion);
     }
 
